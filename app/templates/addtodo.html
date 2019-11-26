@@ -1,0 +1,47 @@
+{% extends 'layout.html'%}
+{% block title %} Sign Up {% endblock %}
+
+{% block content %}
+<div class="container col-sm-9 jutify-content-center">
+    <form action="/addtodo" method="POST">
+        <fieldset class="form-group">
+            <legend class="text-Warning font-weight-bold text-center border-bottom">Add Todo!</legend>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {%for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+            {{ form.csrf_token }}
+            <div class="col-sm-12 row m-0 p-0">
+                {{ form.tasktitle.label(class='form-group mt-2 mb-0') }}
+                {{ form.tasktitle(class='form-control') }}
+                {% for error in form.tasktitle.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="col-sm-12 row m-0 p-0">
+                {{ form.taskdescription.label(class='form-group mt-2 mb-0') }}
+                {{ form.taskdescription(class='form-control', type='textarea') }}
+            </div>
+            <div class="col-sm-12 row m-0 p-0">
+                    <div class="col-sm-8 p-0">
+                        {{ form.enddate.label(class='form-group mt-2 mb-0') }}
+                        {{ form.enddate(class='form-control', type='date') }}
+                    </div>
+                    <div class="col-sm-4 p-0 pl-2">
+                        {{ form.endtime.label(class='form-group mt-2 mb-0') }}
+                        {{ form.endtime(class='form-control', type='time') }}
+                    </div>
+            </div>
+            {{ form.submit(class='form-control btn btn-danger mt-3') }}
+        </fieldset>
+        <p>Back to view todo list? <a class="ml-2" href="/todo">Todo</a></p>
+    </form>
+</div>
+{% endblock %}

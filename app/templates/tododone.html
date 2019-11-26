@@ -1,0 +1,50 @@
+{% extends 'layout.html'%}
+{% block title %} Complete Tasks {% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {%for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="pb-3">
+        <a class="btn btn-info mt-3" href="/addtodo">Add Todo</a>
+    </div>
+    <u><h4 class="text-info mt-3 border-top pt-3">Completed Tasks</h4></u>
+    {% if task|length > 0 %}
+    {% for data in task %}
+        <div class="row bg-white rounded border  m-3">
+            <div class="col-sm-8 mt-2">
+                <h4 class="text-dark">{{ data.tasktitle }}</h4>
+                <small class="text-secondary ml-1">Create date: {{ data.createdate.strftime('%d-%m-%Y %H:%M %p')  }}</small>
+                <p class="text-danger">End date: {{ data.enddate }},<small> {{data.endtime }}</small></p>
+            </div>
+            <div class="col-sm-4 mt-3 row justify-content-end">
+                    <form action="/todo" method="POST"><button class="btn btn-info mt-3" value="{{ data.taskid }}" name='btnId' >View</button></form>
+                </div>
+        </div>
+    {% endfor %}
+    {% else %}
+        <div class="row alert alert-danger rounded m-3 ">
+            No done tasks!
+        </div> 
+    {% endif %}
+
+    {% if taskdraft|length > 0 %}
+    {% for data in taskdraft %}
+        <div class="row bg-white rounded border  m-3 ">
+            <div class="col-sm-8 mt-2">
+                <h4 class="text-dark">{{ data.tasktitle }}</h4>
+                <small class="text-secondary ml-1">Create date: {{ data.createdate.strftime('%d-%m-%Y %H:%M %p')  }}</small>
+                <p class="text-danger">No specific date!</p>
+            </div>
+            <div class="col-sm-4 mt-3 row justify-content-end">
+                    <form action="/todo" method="POST"><button class="btn btn-info mt-3" value="{{ data.taskid }}" name='btnId' >View</button></form>
+                </div>
+        </div>
+    {% endfor %} 
+    {% endif %}
+{% endblock content %}

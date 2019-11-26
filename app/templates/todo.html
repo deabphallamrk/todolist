@@ -1,0 +1,36 @@
+{% extends 'layout.html'%}
+{% block title %} Detail {% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {%for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <a class="btn btn-info mt-3" href="/addtodo"><i class="fa fa-plus"></i></a>
+    <div class="col-md-12 bg-white rounded border mt-3 p-3">
+        <h3>{{ task.tasktitle }}</h3>
+        {% if task.enddate != None and task.endtime != None%}
+        <h6>End date: {{ task.enddate.strftime('%d-%m-%Y') }}, {{ task.endtime.strftime('%H:%M %p') }}</h6>
+        {% else %}
+        <h6>No specific time!</h6>
+        {% endif %}
+        <small class="text-secondary">{{ task.createdate.strftime('%d-%m-%Y %H:%M %p')}}</small>
+        <p>{{ task.taskdescription }}</p>
+        <div class="row">
+        {% if task.status == 1 %}
+        <form action="/tododone" method="POST"><button class="btn btn-success ml-3 mt-3" value="{{ task.taskid }}" name='btnAcheive' >DONE</button></form>        
+        <form action="/todoedit" method="POST"><button class="btn btn-warning ml-3 mt-3" value="{{ task.taskid }}" name='btnEdit' >EDIT</button></form>
+        <form action="/tododel" method="POST"><button class="btn btn-danger ml-3 mt-3" value="{{ task.taskid }}" name='btnDelete' >DELETE</button></form>
+        {% else %}
+        <form action="/toredo" method="POST"><button class="btn btn-success ml-3 mt-3" value="{{ task.taskid }}" name='btnAcheive' >REDO</button></form>        
+        <form action="/todoedit" method="POST"><button class="btn btn-warning ml-3 mt-3" value="{{ task.taskid }}" name='btnEdit' >EDIT</button></form>
+        <form action="/tododel" method="POST"><button class="btn btn-danger ml-3 mt-3" value="{{ task.taskid }}" name='btnDelete' >DELETE</button></form>
+        {% endif %}
+    </div>
+    </div> 
+{% endblock content %}

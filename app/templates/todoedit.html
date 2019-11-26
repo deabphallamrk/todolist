@@ -1,0 +1,33 @@
+{% extends 'layout.html'%}
+{% block title %} Edit Tasks {% endblock %}
+
+{% block content %}
+<div class="container col-sm-12 jutify-content-center">
+    <form action="/todoupdate" method="POST">
+        <fieldset class="form-group">
+            <legend class="text-Warning font-weight-bold text-center border-bottom">Add Todo!</legend>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {%for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {{ forms.csrf_token }}
+            {{ forms.tasktitle.label(class='form-group mt-2 mb-0') }}
+            {{ forms.tasktitle(class='form-control',value=task.tasktitle) }}
+            {{ forms.taskdescription.label(class='form-group mt-2 mb-0') }}
+            {{ forms.taskdescription(class='form-control', value=task.taskdescription) }}
+            {{ forms.enddate.label(class='form-group mt-2 mb-0') }}
+            {{ forms.enddate(class='form-control', type='date', value=task.enddate) }}
+            {{ forms.endtime.label(class='form-group mt-2 mb-0') }}
+            {{ forms.endtime(class='form-control', type='time',value=task.endtime) }}
+            <button class="form-control mt-3 btn btn-danger" name='btnUpdate' value="{{task.taskid}}">UPDATE TODO</button>
+        </fieldset>
+        <p>Want to cancel? <a class="ml-2" href="/todo">View All Todo</a></p>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'layout.html'%}
+{% block title %} Home {% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {%for category, message in messages %}
+            <div class="alert alert-{{ category }} mt-3">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="pb-3">    
+        <a class="btn btn-info mt-3" href="/addtodo">Add Todo</a>
+    </div>
+
+    {% if taskoverdue|length > 0 %}
+    <u><h4 class="text-info mt-3 border-top pt-3">Overdue Tasks</h4></u>
+    {% for data in taskoverdue %}
+    <div class="row bg-white rounded border  m-3 ">
+        <div class="col-sm-7 mt-2">
+            <h4 class="text-dark">{{ data.tasktitle }}</h4>
+            <h6 class="text-danger">Due: {{data.enddate.strftime('%d-%m-%Y')}}, {{ data.endtime.strftime('%H:%M %p') }}</h6>
+            
+        </div>
+        <div class="col-sm-5 mt-3 row justify-content-end">
+            <form action="/tododone" method="POST"><button class="btn btn-success mt-1" value="{{ data.taskid }}" name='btnAcheive' >Done</button></form>
+            <form action="/todo" method="POST"><button class="btn btn-light border mt-1 ml-3" value="{{ data.taskid }}" name='btnId' >View</button></form>
+        </div>
+    </div> 
+    {% endfor %}
+    {% else %}
+    {% endif %}
+    <u><h4 class="text-info mt-3 border-top pt-3">Today Tasks</h4></u>
+    {% if tasktoday|length > 0 %}
+    {% for data in tasktoday %}
+    <div class="row bg-white rounded border  m-3 ">
+        <div class="col-sm-7 mt-2">
+            <h4 class="text-dark">{{ data.tasktitle }}</h4>
+            <h6 class="text-secondary">Due: {{data.enddate.strftime('%d-%m-%Y')}}, {{ data.endtime.strftime('%H:%M %p') }}</h6>
+            
+        </div>
+        <div class="col-sm-5 mt-3 row justify-content-end">
+            <form action="/tododone" method="POST"><button class="btn btn-success mt-1" value="{{ data.taskid }}" name='btnAcheive' >Done</button></form>
+            <form action="/todo" method="POST"><button class="btn btn-light border mt-1 ml-3" value="{{ data.taskid }}" name='btnId' >View</button></form>
+        </div>
+    </div> 
+    {% endfor %}
+    {% else %}
+        <div class="row alert alert-info rounded border  m-3">
+            <h5>No task(s)</h5>
+        </div> 
+    {% endif %}
+
+    {% if tasktmr|length > 0 %}
+    <u><h4 class="text-info mt-3 border-top pt-3">Tomorrow Tasks</h4></u>
+    {% for data in tasktmr %}
+    <div class="row bg-white rounded border  m-3 ">
+        <div class="col-sm-7 mt-2">
+            <h4 class="text-dark">{{ data.tasktitle }}</h4>
+            <h6 class="text-secondary">Due: {{data.enddate.strftime('%d-%m-%Y')}}, {{ data.endtime.strftime('%H:%M %p') }}</h6>
+            
+        </div>
+        <div class="col-sm-5 mt-3 row justify-content-end">
+            <form action="/tododone" method="POST"><button class="btn btn-success mt-1" value="{{ data.taskid }}" name='btnAcheive' >Done</button></form>
+            <form action="/todo" method="POST"><button class="btn btn-light border mt-1 ml-3" value="{{ data.taskid }}" name='btnId' >View</button></form>
+        </div>
+    </div> 
+    {% endfor %}
+    {% else %}
+    {% endif %}
+
+    {% if taskaftertmr|length > 0 %}
+    <u><h4 class="text-info mt-3 border-top pt-3">After Tomorrow Tasks</h4></u>
+    {% for data in taskaftertmr %}
+    <div class="row bg-white rounded border  m-3 ">
+        <div class="col-sm-7 mt-2">
+            <h4 class="text-dark">{{ data.tasktitle }}</h4>
+            <h6 class="text-secondary">Due: {{data.enddate.strftime('%d-%m-%Y')}}, {{ data.endtime.strftime('%H:%M %p') }}</h6>
+            
+        </div>
+        <div class="col-sm-5 mt-3 row justify-content-end">
+            <form action="/tododone" method="POST"><button class="btn btn-success mt-1" value="{{ data.taskid }}" name='btnAcheive' >Done</button></form>
+            <form action="/todo" method="POST"><button class="btn btn-light border mt-1 ml-3" value="{{ data.taskid }}" name='btnId' >View</button></form>
+        </div>
+    </div> 
+    {% endfor %}
+    {% else %}
+    {% endif %}
+    
+{% endblock content %}
